@@ -14,7 +14,7 @@ public class MoveMap : MonoBehaviour
 
     private void Update()
     {
-        rb.velocity = Vector2.left * GameManager.Instances.speed;
+        transform.Translate(Vector3.left*GameManager.Instances.speed*Time.deltaTime);
         if (transform.position.x <= -16.7f)
         {
             transform.position = new Vector3(28.33f,0.22f,0f);

@@ -83,7 +83,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S) || Input.GetMouseButtonDown(1))
         {
             anim.SetBool("jumpAttack", true);
-            rb.velocity = Vector2.down * 20f;
+            rb.velocity = Vector2.down * 30f;
             JumpAtck = true;
             doubleJump = false;
         }
@@ -125,7 +125,7 @@ public class Player : MonoBehaviour
             ++GM.coin;
             other.gameObject.SetActive(false);
         }
-        if (other.gameObject.CompareTag("Obstacles") || other.gameObject.CompareTag("Arrow"))
+        if (other.gameObject.CompareTag("Obstacles"))
         {
             state = GameManager.Instances.speed;
             if (GM.live > 1)
@@ -136,7 +136,7 @@ public class Player : MonoBehaviour
                 GM.isPlay = false;
                 Invoke("ResumeRunAnimation",0.4f);
                 other.enabled = false;
-                StartCoroutine(HandleCollisionWithDelay(other, 1.2f));
+                StartCoroutine(HandleCollisionWithDelay(other, 10f));
             }
             else
             {

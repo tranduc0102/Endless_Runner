@@ -50,6 +50,7 @@ public class Ground : MonoBehaviour
         GameObject nextLevel = listLevel[Random.Range(0, listLevel.Count)];
         GameObject spawnedLevel = Spawn(nextLevel,lastEndPoint);
         activeCoin(spawnedLevel.transform,"Coin");
+        //activeCoin(spawnedLevel.transform,"Obstacles");
         lastEndPoint = spawnedLevel.transform.Find("EndPoint").position;
     }
 

@@ -820,7 +820,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 0
   hightScore: 0
-  speed: 4
+  speed: 5
   coin: 0
   sumCoin: 0
   isPlay: 0
