@@ -23,6 +23,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button RePlay1;
     [SerializeField] private Button Home1;
 
+    public AudioManager audio;
+    
+
     private void Start()
     {
         Pause.onClick.AddListener(buttonPause);
@@ -55,7 +58,7 @@ public class UIManager : MonoBehaviour
         GameManager.Instances.isPlay = false;
         Debug.Log("tam dung");
         SaveGame.Save();
-        SaveGame.Load();
+        //SaveGame.Load();
     }
 
     private void buttonPlay()
@@ -81,6 +84,8 @@ public class UIManager : MonoBehaviour
         GameManager.Instances.isPlay = false;
         Debug.Log("quay ve home");
         SceneManager.LoadScene("Before");
+        audio = GameObject.Find("GameManager").GetComponent<AudioManager>();
+        audio.PlayMusicSource(audio.musicLobby);
     }
 
     private void GameOver()

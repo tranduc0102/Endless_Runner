@@ -17,9 +17,20 @@ public class Player : MonoBehaviour
     public bool checkJump = true;
     public bool doubleJump = true;
     public bool JumpAtck = false; // cái này là để xét animation bay xuống dưới
+    public new AudioManager audio;
 
     private int playerLayer;
     private int obstacleLayer;
+    private static readonly int Jump1 = Animator.StringToHash("Jump");
+    private static readonly int DoubleJump = Animator.StringToHash("doubleJump");
+    private static readonly int JumpAttack = Animator.StringToHash("jumpAttack");
+    private static readonly int JumpAttack1 = Animator.StringToHash("jumpAttack1");
+
+    private void Awake()
+    {
+        audio = GameObject.Find("GameManager").GetComponent<AudioManager>();
+    }
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>(); // lấy rigidbody của Player
@@ -55,13 +66,15 @@ public class Player : MonoBehaviour
             {
                 if (checkJump)
                 {
-                    anim.SetBool("Jump", true);
-                    anim.SetBool("doubleJump", false);
+                    anim.SetBool(Jump1, true);
+                    audio.PlaySFX(audio.jump);
+                    anim.SetBool(DoubleJump, false);
                 }
                 else if (doubleJump)
                 {
-                    anim.SetBool("Jump", false);
-                    anim.SetBool("doubleJump", true);
+                    anim.SetBool(Jump1, false);
+                    audio.PlaySFX(audio.jump);
+                    anim.SetBool(DoubleJump, true);
                 }
 
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
@@ -74,15 +87,15 @@ public class Player : MonoBehaviour
 
         if (checkJump)
         {
-            anim.SetBool("Jump", false);
-            anim.SetBool("doubleJump", false);
+            anim.SetBool(Jump1, false);
+            anim.SetBool(DoubleJump, false);
         }
     }
     private void ActionStomping()
     {
         if (Input.GetKeyDown(KeyCode.S) || Input.GetMouseButtonDown(1))
         {
-            anim.SetBool("jumpAttack", true);
+            anim.SetBool(JumpAttack, true);
             rb.velocity = Vector2.down * 30f;
             JumpAtck = true;
             doubleJump = false;
@@ -90,8 +103,8 @@ public class Player : MonoBehaviour
 
         if (checkJump && JumpAtck)
         {
-            anim.SetBool("jumpAttack", false);
-            anim.SetBool("jumpAttack1", true);
+            anim.SetBool(JumpAttack, false);
+            anim.SetBool(JumpAttack1, true);
             JumpAtck = false;
         }
     }
@@ -101,13 +114,13 @@ public class Player : MonoBehaviour
 
         if (stateInfo.IsName("Jump2") && stateInfo.normalizedTime >= 0.3f)
         {
-            anim.SetBool("jumpAttack1", false);
+            anim.SetBool(JumpAttack1, false);
         }
     }
     #region XuLiVaCham
     private void OnCollisionEnter2D(Collision2D other)
     {
-        anim.SetBool("jumpAttack", false);
+        anim.SetBool(JumpAttack, false);
         if (other.gameObject.CompareTag("Null"))
         {
             checkJump = false;
@@ -123,6 +136,7 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("Coin"))
         {
             ++GM.coin;
+            audio.PlaySFX(audio.coin);
             other.gameObject.SetActive(false);
         }
         if (other.gameObject.CompareTag("Obstacles"))

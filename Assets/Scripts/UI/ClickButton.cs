@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class ClickButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    public Button button; 
+    public Button button;
     private float scaleFactor = 0.8f; // Tỷ lệ khi nút bị giữ
     private Vector3 originalScale; // Kích thước gốc của nút
 

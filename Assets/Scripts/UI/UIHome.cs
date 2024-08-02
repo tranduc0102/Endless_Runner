@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,9 +11,16 @@ public class UIHome : MonoBehaviour
     [SerializeField] private Button buttonPlay;
     [SerializeField] private Button buttonQuit;
     [SerializeField] private TextMeshProUGUI sumCoin;
+    public AudioManager audio;
+
+    private void Awake()
+    {
+        audio = GameObject.Find("GameManager").GetComponent<AudioManager>();
+    }
+
     void Start()
     {
-        SaveGame.Load();
+        //SaveGame.Load();
         sumCoin.text = "X"+GameManager.Instances.sumCoin.ToString();
         buttonPlay.onClick.AddListener(()=>playGame());
         buttonQuit.onClick.AddListener(()=>Quit());
@@ -23,6 +31,7 @@ public class UIHome : MonoBehaviour
     {
         GameManager.Instances.isPlay = true;
         SceneManager.LoadScene("GamePlay");
+        audio.PlayMusicSource(audio.gamePlay);
     }
 
     private void Quit()
